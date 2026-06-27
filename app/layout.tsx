@@ -1,20 +1,28 @@
 import type { Metadata } from "next"
 import { Navbar } from "@/components/layout/Navbar"
+import { Sidebar } from "@/components/layout/Sidebar"
 import "./globals.css"
 
 export const metadata: Metadata = {
-  title: "Vibe Math - Interactive Calculus",
-  description: "Master calculus with interactive lessons. Free lessons to start, then unlock the full course.",
+  title: "Vibe Math — Interactive Calculus",
+  description: "Master calculus with interactive lessons. Hands-on, visual, and free.",
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en">
-      <body>
+    <html lang="en" className="dark">
+      <body className="bg-background antialiased">
         <Navbar />
-        <main className="min-h-[calc(100vh-3.5rem)]">{children}</main>
-        <footer className="border-t py-6 text-center text-sm text-muted-foreground">
-          <div className="container">Vibe Math &mdash; Learn calculus at your own pace</div>
+        <div className="flex min-h-screen" style={{ paddingTop: "3.5rem" }}>
+          <Sidebar />
+          <main className="flex-1 min-w-0">
+            {children}
+          </main>
+        </div>
+        <footer className="border-t border-border/30 py-8 text-center">
+          <div className="container">
+            <p className="text-sm text-muted-foreground/60">Vibe Math — Learn calculus at your own pace</p>
+          </div>
         </footer>
       </body>
     </html>

@@ -1,58 +1,62 @@
 "use client"
 
 import { useState } from "react"
-
-const steps = [
-  { label: "Start", math: "f(x) = x²", explanation: "We begin with the function x²." },
-  { label: "Definition", math: "f'(x) = lim(h→0) (f(x+h) - f(x))/h", explanation: "Recall the limit definition of the derivative." },
-  { label: "Substitute", math: "f'(x) = lim(h→0) ((x+h)² - x²)/h", explanation: "Plug in f(x+h) and f(x)." },
-  { label: "Expand", math: "f'(x) = lim(h→0) (x² + 2xh + h² - x²)/h", explanation: "Expand (x+h)²." },
-  { label: "Simplify", math: "f'(x) = lim(h→0) (2xh + h²)/h", explanation: "Cancel x² terms." },
-  { label: "Factor", math: "f'(x) = lim(h→0) (2x + h)", explanation: "Cancel h from numerator and denominator." },
-  { label: "Result", math: "f'(x) = 2x", explanation: "As h approaches 0, we get 2x!" },
-]
+import { cn } from "@/lib/utils"
+import { InlineMath } from "@/components/ui/katex"
 
 export function DerivativeStepSolver() {
   const [step, setStep] = useState(0)
-  const s = steps[step]
+  const totalSteps = 5
+
+  const steps = [
+    { label: "Start with f(x)", math: "f(x) = x^2" },
+    { label: "Definition", math: "f'(x) = \\lim_{h \\to 0} \\frac{(x+h)^2 - x^2}{h}" },
+    { label: "Expand", math: "f'(x) = \\lim_{h \\to 0} \\frac{x^2 + 2xh + h^2 - x^2}{h}" },
+    { label: "Cancel", math: "f'(x) = \\lim_{h \\to 0} \\frac{2xh + h^2}{h} = \\lim_{h \\to 0} (2x + h)" },
+    { label: "Take limit", math: "f'(x) = 2x" },
+  ]
 
   return (
-    <div className="space-y-4">
-      <div className="flex gap-2 overflow-x-auto pb-2">
-        {steps.map((st, i) => (
+    <div className="space-y-6">
+      <div className="flex gap-2 flex-wrap">
+        {steps.map((s, i) => (
           <button
             key={i}
             onClick={() => setStep(i)}
-            className={`shrink-0 rounded-full px-3 py-1 text-xs font-medium transition-colors ${
+            className={cn(
+              "px-3 py-1.5 text-xs rounded-md border transition-all",
               i === step
-                ? "bg-primary text-primary-foreground"
+                ? "border-primary/40 bg-primary/15 text-primary"
                 : i < step
-                  ? "bg-green-100 text-green-700"
-                  : "bg-muted text-muted-foreground"
-            }`}
+                  ? "border-primary/30 bg-primary/10 text-primary/70"
+                  : "border-border/50 text-muted-foreground hover:border-border"
+            )}
           >
-            {st.label}
+            {i + 1}
           </button>
         ))}
       </div>
-      <div className="rounded-lg bg-muted p-6 text-center">
-        <p className="text-xl font-mono font-medium">{s.math}</p>
+
+      <div className="rounded-lg border border-border/50 bg-card/30 p-5 text-center min-h-[80px] flex items-center justify-center">
+        <p className="text-sm text-muted-foreground mb-2">{steps[step].label}</p>
+        <p className="text-lg"><InlineMath>{steps[step].math}</InlineMath></p>
       </div>
-      <p className="text-sm text-muted-foreground text-center">{s.explanation}</p>
-      <div className="flex justify-between">
+
+      <div className="flex items-center justify-between">
         <button
           onClick={() => setStep(Math.max(0, step - 1))}
           disabled={step === 0}
-          className="rounded-md bg-secondary px-4 py-2 text-sm font-medium disabled:opacity-50"
+          className="text-sm text-muted-foreground hover:text-foreground disabled:opacity-30 transition-colors"
         >
-          Previous
+          ← Back
         </button>
+        <span className="text-xs text-muted-foreground">Step {step + 1} of {totalSteps}</span>
         <button
-          onClick={() => setStep(Math.min(steps.length - 1, step + 1))}
-          disabled={step === steps.length - 1}
-          className="rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground disabled:opacity-50"
+          onClick={() => setStep(Math.min(totalSteps - 1, step + 1))}
+          disabled={step === totalSteps - 1}
+          className="text-sm text-muted-foreground hover:text-foreground disabled:opacity-30 transition-colors"
         >
-          Next
+          Next →
         </button>
       </div>
     </div>

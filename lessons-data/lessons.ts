@@ -2,6 +2,9 @@ export interface LessonSection {
   type: "text" | "math" | "interactive" | "quiz"
   content: string
   interactive?: string
+  quizOptions?: string[]
+  quizCorrectIndex?: number
+  quizExplanation?: string
 }
 
 export interface LessonData {
@@ -25,7 +28,13 @@ export const lessons: Record<string, LessonData> = {
       { type: "text", content: "- **Right-hand limit**: $\\\\lim_{x \\\\to a^+} f(x)$ — approach from above" },
       { type: "text", content: "- The limit exists **only if** the left and right-hand limits are equal." },
       { type: "text", content: "$$\\\\lim_{x \\\\to a} f(x) \\\\text{ exists if and only if } \\\\lim_{x \\\\to a^-} f(x) = \\\\lim_{x \\\\to a^+} f(x)$$" },
-      { type: "quiz", content: "**Check your understanding:** What is $\\\\lim_{x \\\\to 3} (2x + 1)$?" },
+      {
+  type: "quiz",
+  content: "**Check your understanding:** What is $\\\\lim_{x \\\\to 3} (2x + 1)$?",
+  quizOptions: ["5", "6", "7", "8"],
+  quizCorrectIndex: 2,
+  quizExplanation: "As $x$ approaches 3, $2x + 1$ approaches $2(3) + 1 = 7$."
+},
     ],
   },
   "derivatives-intro": {
