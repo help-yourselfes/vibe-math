@@ -89,3 +89,25 @@ INSERT INTO lessons (slug, title, description, topic, lesson_order, published) V
   ('lhopitals-rule', 'L''Hôpital''s Rule', 'Evaluate tricky limits using derivatives. Learn when this rule applies and how to apply it correctly.', 'calculus', 8, true),
   ('taylor-series', 'Taylor Series', 'Approximate any smooth function using polynomials. The foundation of many numerical methods.', 'calculus', 9, true),
   ('differential-equations', 'Introduction to Differential Equations', 'Learn the basics of ODEs: separation of variables, first-order linear equations, and modeling real-world phenomena.', 'calculus', 10, true);
+
+-- User saved glossary terms
+CREATE TABLE saved_glossary_terms (
+  user_id UUID REFERENCES profiles(id) ON DELETE CASCADE,
+  term TEXT NOT NULL,
+  saved_at TIMESTAMPTZ DEFAULT NOW(),
+  PRIMARY KEY (user_id, term)
+);
+
+ALTER TABLE saved_glossary_terms ENABLE ROW LEVEL SECURITY;
+
+CREATE POLICY "Users can read own saved glossary terms"
+  ON saved_glossary_terms FOR SELECT
+  USING (auth.uid() = user_id);
+
+CREATE POLICY "Users can insert own saved glossary terms"
+  ON saved_glossary_terms FOR INSERT
+  WITH CHECK (auth.uid() = user_id);
+
+CREATE POLICY "Users can delete own saved glossary terms"
+  ON saved_glossary_terms FOR DELETE
+  USING (auth.uid() = user_id);

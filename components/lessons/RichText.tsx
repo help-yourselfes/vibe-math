@@ -6,7 +6,7 @@ import { glossaryRegex } from "@/components/glossary/glossaryData"
 import { useApp } from "@/components/layout/AppShell"
 
 export function RichText({ content }: { content: string }) {
-  const { setActiveGlossaryTerm, setSidebarMode, setCollapsed } = useApp()
+  const { setActiveGlossaryTerm } = useApp()
   const parts = parseContent(content)
 
   const nodes = useMemo(() => {
@@ -24,15 +24,13 @@ export function RichText({ content }: { content: string }) {
       }
       const processed = processTextWithGlossary(part.value, (term) => {
         setActiveGlossaryTerm(term)
-        setSidebarMode("glossary")
-        setCollapsed(false)
       }, key)
       result.push(...processed.nodes)
       key = processed.nextKey
     }
 
     return result
-  }, [parts, setActiveGlossaryTerm, setSidebarMode, setCollapsed])
+  }, [parts, setActiveGlossaryTerm])
 
   return <span className="leading-relaxed">{nodes}</span>
 }

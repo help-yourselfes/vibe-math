@@ -41,7 +41,7 @@ export function QuizCard({
         <BrainIcon size={14} />
         <span>Check your understanding</span>
       </div>
-      <p className="text-sm text-foreground/90 mb-4"><RichText content={question} /></p>
+      <div className="text-sm text-foreground/90 mb-4"><RichText content={question} /></div>
       <div className="grid gap-2.5">
         {options.map((opt, i) => {
           const isSelected = selected === i
@@ -94,7 +94,7 @@ export function QuizCard({
           )}
         >
           <p className="font-medium mb-1">{isCorrect ? "✓ Correct!" : "✗ Not quite."}</p>
-          <p className="text-xs opacity-80"><RichText content={explanation} /></p>
+          <div className="text-xs opacity-80"><RichText content={explanation} /></div>
         </motion.div>
       )}
       {burst > 0 && <ParticleBurst trigger={burst} x={burstPos.x} y={burstPos.y} color="#4f46e5" />}

@@ -27,10 +27,10 @@ export const lessons: Record<string, LessonData> = {
       { type: "text", content: "- **Left-hand limit**: $\\\\lim_{x \\\\to a^-} f(x)$ — approach from below" },
       { type: "text", content: "- **Right-hand limit**: $\\\\lim_{x \\\\to a^+} f(x)$ — approach from above" },
       { type: "text", content: "- The limit exists **only if** the left and right-hand limits are equal." },
-      { type: "text", content: "$$\\\\lim_{x \\\\to a} f(x) \\\\text{ exists if and only if } \\\\lim_{x \\\\to a^-} f(x) = \\\\lim_{x \\\\to a^+} f(x)$$" },
+      { type: "text", content: "$$\\\\lim_{x \\\\to a} f(x) \\\\; \\\\text{exists} \\\\; \\\\iff \\\\; \\\\lim_{x \\\\to a^-} f(x) = \\\\lim_{x \\\\to a^+} f(x)$$" },
       {
   type: "quiz",
-  content: "**Check your understanding:** What is $\\\\lim_{x \\\\to 3} (2x + 1)$?",
+  content: "What is $\\\\lim_{x \\\\to 3} (2x + 1)$?",
   quizOptions: ["5", "6", "7", "8"],
   quizCorrectIndex: 2,
   quizExplanation: "As $x$ approaches 3, $2x + 1$ approaches $2(3) + 1 = 7$."

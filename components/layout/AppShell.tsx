@@ -4,6 +4,7 @@ import { createContext, useContext, useState, useEffect, useCallback } from "rea
 import { usePathname } from "next/navigation"
 import { Navbar } from "./Navbar"
 import { Sidebar } from "./Sidebar"
+import { GlossaryPopup } from "@/components/glossary/GlossaryPopup"
 import { cn } from "@/lib/utils"
 
 interface AppContextType {
@@ -85,6 +86,11 @@ export function AppShell({ children }: { children: React.ReactNode }) {
           </main>
         </div>
       </div>
+
+      <GlossaryPopup
+        term={activeGlossaryTerm}
+        onClose={() => setActiveGlossaryTerm(null)}
+      />
     </AppContext.Provider>
   )
 }

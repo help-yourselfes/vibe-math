@@ -366,10 +366,11 @@ export function Sidebar() {
     <>
       <aside
         className={cn(
-          "fixed left-0 top-0 h-screen z-40 flex flex-col bg-background border-r border-[#1f2937] transition-all duration-200 ease-in-out overflow-hidden",
+          "fixed left-0 top-0 h-screen z-40 flex flex-col bg-[#030308] border-r border-[#1f2937] transition-all duration-200 ease-in-out overflow-hidden",
           collapsed ? "w-0" : "w-[280px]"
         )}
       >
+        <div className="absolute inset-0 bg-black/30 pointer-events-none" />
         {/* Header */}
         <div className="flex items-center gap-3 px-4 h-[60px] border-b border-[#1f2937] shrink-0">
           {sidebarMode !== "course" ? (
@@ -496,6 +497,18 @@ export function Sidebar() {
             )}
 
             <div className="border-t border-[#1f2937] p-4 shrink-0">
+              <div className="flex items-center gap-2 mb-3">
+                <Link
+                  href="/glossary"
+                  className="text-xs text-muted-foreground/50 hover:text-[#818cf8] transition-colors flex items-center gap-1.5"
+                >
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" />
+                    <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" />
+                  </svg>
+                  My Glossary
+                </Link>
+              </div>
               <div className="flex items-center gap-3 text-xs text-muted-foreground/50">
                 <span className="inline-block w-2 h-2 rounded-full bg-[#4f46e5]/30" />
                 <span>Free lessons 1–{freeCount}</span>

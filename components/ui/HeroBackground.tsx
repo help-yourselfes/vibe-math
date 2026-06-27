@@ -35,8 +35,6 @@ interface GridData {
   size: number
 }
 
-let grid: GridData | null = null
-
 function buildGrid(w: number, h: number): GridData {
   const size = 26
   const spacing = Math.max(w, h) / size * 1.5
@@ -63,6 +61,7 @@ export function HeroBackground() {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const frameRef = useRef<number>(0)
   const mouseRef = useRef({ x: 0.5, y: 0.5 })
+  const gridRef = useRef<GridData | null>(null)
   const [mounted, setMounted] = useState(false)
 
   useEffect(() => { setMounted(true) }, [])
@@ -91,14 +90,14 @@ export function HeroBackground() {
       canvas!.height = h * dpr
       canvas!.style.width = w + "px"
       canvas!.style.height = h + "px"
-      grid = buildGrid(w, h)
+      gridRef.current = buildGrid(w, h)
     }
     resize()
     window.addEventListener("resize", resize)
 
     const animate = (time: number) => {
       const cvs = canvasRef.current
-      if (!cvs || !grid) return
+      if (!cvs || !gridRef.current) return
       const c = cvs.getContext("2d")
       if (!c) return
 
@@ -113,16 +112,16 @@ export function HeroBackground() {
 
       const rotY = autoRotY + (mx - 0.5) * 0.35 + 0.5
       const rotX = autoRotX + (my - 0.5) * 0.12 + 0.3
-      const scale = w / (grid.half * 1.6)
+      const scale = w / (gridRef.current.half * 1.6)
       const cx = w * 0.5
       const cy = h * 0.38
       const amp = 12
 
-      const flatProj = grid.points.map((p) => project({ x: p.x, y: 0, z: p.z }, cx, cy, scale, rotX, rotY))
+      const flatProj = gridRef.current.points.map((p) => project({ x: p.x, y: 0, z: p.z }, cx, cy, scale, rotX, rotY))
 
       c.strokeStyle = "rgba(79, 70, 229, 0.12)"
       c.lineWidth = 1
-      for (const [i1, i2] of grid.indices) {
+      for (const [i1, i2] of gridRef.current.indices) {
         const a = flatProj[i1], b = flatProj[i2]
         const depthFade = Math.max(0, 1 - Math.abs(a.depth) / 800)
         if (depthFade <= 0.01) continue
@@ -140,7 +139,7 @@ export function HeroBackground() {
       }
       c.globalAlpha = 1
 
-      const waveProj = grid.points.map((p, i) => {
+      const waveProj = gridRef.current.points.map((p, i) => {
         const y = Math.sin(p.x * 0.03 + t * 0.8) * Math.cos(p.z * 0.03 + t * 0.5) * amp
         const pr = project({ x: p.x, y, z: p.z }, cx, cy, scale, rotX, rotY)
         return { ...pr, y3d: y, idx: i }
@@ -158,7 +157,7 @@ export function HeroBackground() {
         if (edgeFade <= 0) continue
 
         const fade = depthFade * edgeFade
-        const seed = grid.seeds[p.idx]
+        const seed = gridRef.current.seeds[p.idx]
         const baseSize = 2.5 + seed * 0.4
         const pulse = 1 + 0.4 * Math.sin(t * 1.2 + seed * 3)
         const depthSize = Math.max(0.6, 1 - p.depth * 0.002)
@@ -183,6 +182,7 @@ export function HeroBackground() {
     return () => {
       if (frameRef.current) cancelAnimationFrame(frameRef.current)
       window.removeEventListener("resize", resize)
+      gridRef.current = null
     }
   }, [mounted])
 

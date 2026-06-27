@@ -2,7 +2,6 @@
 
 import { useState, useMemo } from "react"
 import { motion } from "framer-motion"
-import { InlineMath } from "@/components/ui/katex"
 
 const W = 480, H = 340
 const ML = 55, MR = 25, MT = 25, MB = 45
@@ -44,7 +43,7 @@ export function LimitExplorer() {
   return (
     <div className="space-y-5">
       <p className="text-sm text-muted-foreground">
-        Drag the slider to see how <InlineMath>f(x) = x^2 - 1</InlineMath> behaves as <InlineMath>x</InlineMath> approaches 2
+        Drag the slider to see how <span className="italic">f</span>(<span className="italic">x</span>) = <span className="italic">x</span>² − 1 behaves as <span className="italic">x</span> approaches 2
       </p>
 
       <div className="relative pt-2 pb-1">
@@ -129,7 +128,7 @@ export function LimitExplorer() {
           transition={{ duration: 0.2 }}
           className="rounded-lg bg-[rgba(13,17,23,0.5)] border border-border/50 p-4 text-center"
         >
-          <p className="text-xs text-muted-foreground mb-1"><InlineMath>x</InlineMath></p>
+          <p className="text-xs text-muted-foreground mb-1"><span className="italic">x</span></p>
           <motion.p
             key={x.toFixed(2)}
             initial={{ scale: 1.03 }}
@@ -145,7 +144,7 @@ export function LimitExplorer() {
           transition={{ duration: 0.2 }}
           className="rounded-lg bg-[rgba(13,17,23,0.5)] border border-border/50 p-4 text-center"
         >
-          <p className="text-xs text-muted-foreground mb-1"><InlineMath>f(x)</InlineMath></p>
+          <p className="text-xs text-muted-foreground mb-1"><span className="italic">f</span>(<span className="italic">x</span>)</p>
           <motion.p
             key={f(x).toFixed(2)}
             initial={{ scale: 1.03 }}
@@ -160,7 +159,7 @@ export function LimitExplorer() {
 
       <div className="rounded-xl bg-gradient-to-r from-[#4f46e5]/10 to-[#818cf8]/10 border border-[#4f46e5]/20 p-5 text-center">
         <p className="text-sm text-muted-foreground mb-2">
-          As <InlineMath>x \\to 2</InlineMath> from {x < target ? "below" : "above"}, <InlineMath>f(x) \\to</InlineMath>
+          As <span className="italic">x</span> → 2 from {x < target ? "below" : "above"}, <span className="italic">f(x)</span> →
         </p>
         <p className="text-4xl font-bold text-[#818cf8]">{limitVal.toFixed(0)}</p>
         <p className="text-xs text-muted-foreground mt-2">

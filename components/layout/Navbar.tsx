@@ -7,6 +7,7 @@ import { InfinityIcon } from "@/components/ui/icons"
 
 const navLinks = [
   { href: "/lessons", label: "Lessons" },
+  { href: "/glossary", label: "Glossary" },
   { href: "/pricing", label: "Pricing" },
   { href: "/dashboard", label: "Dashboard" },
 ]

@@ -1,7 +1,11 @@
 "use client"
 
 import { useRef, useEffect, useState } from "react"
-import { InlineMath } from "@/components/ui/katex"
+import katex from "katex"
+
+function renderMath(tex: string) {
+  return { __html: katex.renderToString(tex, { throwOnError: false }) }
+}
 
 const PI = Math.PI
 const RANGE = PI * 2 // total range width: -π to π
@@ -141,17 +145,17 @@ export function SinGraphCard() {
   return (
     <div className="rounded-xl border border-[#1f2937] bg-[rgba(13,17,23,0.75)] backdrop-blur-[12px] p-5">
       <div className="flex items-center justify-between mb-4">
-        <p className="text-sm text-foreground">
-          <InlineMath>{`f(x) = ${offsetTex(offset)}`}</InlineMath>
-        </p>
-        <div className="text-right">
-          <p className="text-xs text-muted-foreground/80">
-            <InlineMath>{`\\int_{a}^{b} f(x) \\, dx =`}</InlineMath>{" "}
-            <span className="text-[#818cf8] font-mono">
-              {(-Math.cos(b + offset) - (-Math.cos(a + offset))).toFixed(3)}
-            </span>
-          </p>
-        </div>
+        <span
+          className="text-sm text-foreground [&_.katex]:text-base"
+          dangerouslySetInnerHTML={renderMath(`f(x) = ${offsetTex(offset)}`)}
+        />
+        <span className="text-xs text-muted-foreground/80">
+          <span dangerouslySetInnerHTML={renderMath(`\\int_{a}^{b} f(x) \\, dx =`)} />
+          {" "}
+          <span className="text-[#818cf8] font-mono">
+            {(-Math.cos(b + offset) - (-Math.cos(a + offset))).toFixed(3)}
+          </span>
+        </span>
       </div>
 
       <canvas ref={canvasRef} className="w-full h-[200px] rounded-lg" />
@@ -227,6 +231,20 @@ function SliderWithOverlay({
         <span className="font-mono" style={{ color }}>{value.toFixed(2)}</span>
       </label>
       <div className="relative h-5 flex items-center">
+        <div className="absolute inset-x-0 top-1/2 -translate-y-1/2 h-[6px] mx-[2px] pointer-events-none rounded overflow-hidden">
+          {overlayStart != null && (
+            <div
+              className="absolute inset-y-0 right-0 rounded-r bg-black/35"
+              style={{ left: `${overlayStart}%` }}
+            />
+          )}
+          {overlayEnd != null && (
+            <div
+              className="absolute inset-y-0 left-0 rounded-l bg-black/35"
+              style={{ right: `${100 - overlayEnd}%` }}
+            />
+          )}
+        </div>
         <input
           type="range"
           min={min}
@@ -236,24 +254,6 @@ function SliderWithOverlay({
           onChange={(e) => onChange(+e.target.value)}
           className="w-full relative z-10"
         />
-        {overlayStart != null && (
-          <div
-            className="absolute inset-y-0 right-0 rounded-r pointer-events-none z-0"
-            style={{
-              left: `${overlayStart}%`,
-              background: "rgba(0,0,0,0.35)",
-            }}
-          />
-        )}
-        {overlayEnd != null && (
-          <div
-            className="absolute inset-y-0 left-0 rounded-l pointer-events-none z-0"
-            style={{
-              right: `${100 - overlayEnd}%`,
-              background: "rgba(0,0,0,0.35)",
-            }}
-          />
-        )}
       </div>
     </div>
   )

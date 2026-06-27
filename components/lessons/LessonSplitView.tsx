@@ -32,11 +32,11 @@ function SectionDivider() {
 function TheoryBlock({ block }: { block: RenderBlock }) {
   switch (block.kind) {
     case "text":
-      return <p className="leading-relaxed text-[15px] text-foreground/90"><RichText content={block.content} /></p>
+      return <div className="leading-relaxed text-[15px] text-foreground/90"><RichText content={block.content} /></div>
     case "callout":
       return (
         <div className="border-l-4 border-l-[#4f46e5] bg-[rgba(13,17,23,0.5)] rounded-r-xl py-5 pr-5 my-6">
-          <div className="pl-5"><p className="leading-relaxed text-[15px] text-foreground/90"><RichText content={block.content} /></p></div>
+          <div className="pl-5"><div className="leading-relaxed text-[15px] text-foreground/90"><RichText content={block.content} /></div></div>
         </div>
       )
     case "formula-grid":
@@ -106,14 +106,14 @@ function FullWidthReference({ header, content }: { header: Extract<RenderBlock, 
 
   return (
     <div className="my-10 -mx-6 px-6 py-8 bg-[rgba(13,17,23,0.6)] border-y border-[#1f2937]">
-      <p className="text-sm font-semibold text-[#e2e8f0] mb-6"><RichText content={header.content} /></p>
+      <div className="text-sm font-semibold text-[#e2e8f0] mb-6"><RichText content={header.content} /></div>
       {isFormula ? (
         <FormulaGrid items={items} />
       ) : (
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
           {items.map((item, i) => (
             <div key={i} className="rounded-lg border border-[#1f2937] bg-[rgba(13,17,23,0.5)] p-4">
-              <p className="text-sm text-foreground/90 leading-relaxed"><RichText content={item.replace(/^-\s+/, "")} /></p>
+              <div className="text-sm text-foreground/90 leading-relaxed"><RichText content={item.replace(/^-\s+/, "")} /></div>
             </div>
           ))}
         </div>

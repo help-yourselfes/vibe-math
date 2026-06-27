@@ -44,22 +44,20 @@ export function CatalogCard({ slug, order, title, isFree, time, xp, interactives
           </div>
         )}
 
-        <div className="p-5 space-y-4">
-          <div className="flex items-start justify-between">
-            <div className="flex items-center gap-3">
-              <span className="flex items-center justify-center w-9 h-9 rounded-lg bg-[#4f46e5]/10 text-[#818cf8] text-xs font-bold border border-[#4f46e5]/20">
+        <div className="p-6 space-y-4">
+          <div className="flex items-start justify-between gap-3">
+            <div className="flex items-center gap-3 min-w-0">
+              <span className="flex items-center justify-center w-9 h-9 shrink-0 rounded-lg bg-[#4f46e5]/10 text-[#818cf8] text-xs font-bold border border-[#4f46e5]/20">
                 {order}
               </span>
-              <div>
-                <h3 className="text-base font-semibold leading-tight">{title}</h3>
-              </div>
+              <h3 className="text-base font-semibold leading-tight truncate">{title}</h3>
             </div>
             {isFree ? (
-              <span className="text-[10px] font-bold uppercase tracking-wider text-[#4f46e5]/60 px-2 py-0.5 rounded border border-[#4f46e5]/20">
+              <span className="shrink-0 text-[10px] font-bold uppercase tracking-wider text-[#4f46e5]/60 px-2 py-0.5 rounded border border-[#4f46e5]/20">
                 Free
               </span>
             ) : (
-              <span className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground/50 px-2 py-0.5 rounded border border-border">
+              <span className="shrink-0 text-[10px] font-bold uppercase tracking-wider text-muted-foreground/50 px-2 py-0.5 rounded border border-border">
                 Premium
               </span>
             )}
@@ -69,18 +67,18 @@ export function CatalogCard({ slug, order, title, isFree, time, xp, interactives
             <MathSparkline slug={slug} width={180} height={50} />
           </div>
 
-          <div className="flex items-center gap-3 text-[11px] text-muted-foreground">
+          <div className="flex items-center gap-3 text-[11px] text-muted-foreground flex-wrap">
             <span className="flex items-center gap-1">
-              <Clock size={12} className="text-[#4f46e5]/50" />
+              <Clock size={12} className="text-[#4f46e5]/50 shrink-0" />
               {time}
             </span>
             <span className="flex items-center gap-1">
-              <Zap size={12} className="text-[#4f46e5]/50" />
+              <Zap size={12} className="text-[#4f46e5]/50 shrink-0" />
               XP +{xp}
             </span>
             {interactives > 0 && (
               <span className="flex items-center gap-1">
-                <Brain size={12} className="text-[#4f46e5]/50" />
+                <Brain size={12} className="text-[#4f46e5]/50 shrink-0" />
                 {interactives} interactive
               </span>
             )}
