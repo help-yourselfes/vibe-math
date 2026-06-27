@@ -469,33 +469,6 @@ export function Sidebar() {
             </nav>
 
             {/* Review section */}
-            {reviewSlugs.length > 0 && (
-              <div className="border-t border-[#1f2937] px-4 py-3 shrink-0">
-                <p className="text-[11px] font-semibold uppercase tracking-widest text-muted-foreground/40 mb-2">
-                  Review
-                </p>
-                <div className="space-y-1">
-                  {reviewSlugs.map((slug) => {
-                    const lesson = lessons[slug]
-                    const qs = reviewQuestions[slug]
-                    return (
-                      <button
-                        key={slug}
-                        onClick={() => handleStartReview(slug)}
-                        className="w-full text-left flex items-center gap-2 px-2 py-1.5 rounded-md text-xs text-muted-foreground/60 hover:text-foreground hover:bg-white/[0.03] transition-colors"
-                      >
-                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="shrink-0">
-                          <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
-                        </svg>
-                        <span className="flex-1 truncate">{lesson.title}</span>
-                        <span className="text-muted-foreground/30">{qs.length}q</span>
-                      </button>
-                    )
-                  })}
-                </div>
-              </div>
-            )}
-
             <div className="border-t border-[#1f2937] p-4 shrink-0">
               <div className="flex items-center gap-2 mb-3">
                 <Link

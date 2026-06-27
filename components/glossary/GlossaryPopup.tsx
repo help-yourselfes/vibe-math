@@ -95,7 +95,7 @@ export function GlossaryPopup({
             exit={{ opacity: 0, scale: 0.92, y: 20 }}
             transition={{ type: "spring", stiffness: 350, damping: 26 }}
             onClick={(e) => e.stopPropagation()}
-            className="bg-[#0d1117] border border-[#1f2937] rounded-2xl p-8 w-full max-w-xl mx-4 shadow-2xl"
+            className="bg-[#0d1117] border border-[#1f2937] rounded-2xl p-8 w-full max-w-2xl mx-4 shadow-2xl"
           >
             <div className="flex items-start justify-between mb-5">
               <div className="space-y-2">
@@ -133,7 +133,7 @@ export function GlossaryPopup({
             <p className="text-base text-muted-foreground leading-relaxed mb-6">{entry.definition}</p>
 
             {entry.formula && (
-              <div className="rounded-xl bg-[rgba(13,17,23,0.5)] border border-[#1f2937] p-5 text-center">
+              <div className="rounded-xl bg-[rgba(13,17,23,0.5)] border border-[#1f2937] p-5 text-center overflow-x-auto">
                 <p className="text-[11px] text-muted-foreground/40 font-semibold uppercase tracking-widest mb-3">
                   Mathematical Representation
                 </p>

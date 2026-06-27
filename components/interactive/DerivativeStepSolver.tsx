@@ -196,9 +196,9 @@ function ExpandedView({
         ))}
       </div>
 
-      <div className="flex-1 flex flex-col justify-center min-h-[300px]">
+      <div className="flex-1 flex flex-col justify-center min-h-[300px] overflow-x-auto">
         <div className="rounded-lg border border-border/50 bg-[rgba(13,17,23,0.5)] p-12 text-center flex flex-col items-center justify-center min-h-[200px]">
-          <div className="text-2xl flex flex-wrap items-center justify-center gap-x-2 gap-y-2">
+          <div className="text-2xl flex items-center justify-center gap-x-2">
             {steps[step].segs.map((seg) => {
               const prev = prevSegs?.find((p) => p.id === seg.id)
               const changed = !prev || prev.tex !== seg.tex
@@ -252,7 +252,7 @@ export function DerivativeStepSolver() {
         exit={{ opacity: 0, scale: 0.92, y: 20 }}
         transition={{ type: "spring", stiffness: 350, damping: 26 }}
         onClick={(e) => e.stopPropagation()}
-        className="bg-[#0d1117] border border-border/50 rounded-xl p-8 w-full max-w-3xl mx-4 shadow-2xl"
+        className="bg-[#0d1117] border border-border/50 rounded-xl p-8 w-full max-w-5xl mx-4 shadow-2xl"
       >
         <div className="flex items-center justify-between mb-6">
           <h2 className="text-sm font-semibold text-foreground/80">Derivative Step Solver</h2>

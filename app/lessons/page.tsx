@@ -77,9 +77,9 @@ function Milestone({ isFree, isLast, isCompleted }: { isFree: boolean; isLast: b
 }
 
 export default async function LessonsPage() {
-  const hasPaid = false
-  const freeCount = 3
-  const currentIdx = freeCount - 1
+  const hasPaid = true
+  const freeCount = allSlugs.length
+  const currentIdx = 0
 
   return (
     <div className="py-16 relative">
@@ -193,7 +193,7 @@ export default async function LessonsPage() {
                             {meta.description}
                           </p>
 
-                          <div className="text-xs text-muted-foreground/60 text-center">
+                          <div className="text-xs text-muted-foreground/60 text-center overflow-x-auto">
                             <span className="text-[#818cf8]/70 [&_.katex]:text-xs" dangerouslySetInnerHTML={renderMath(meta.formula)} />
                           </div>
                         </Link>
