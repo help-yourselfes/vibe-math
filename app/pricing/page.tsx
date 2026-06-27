@@ -68,12 +68,12 @@ export default function PricingPage() {
             key={plan.name}
             className={`relative rounded-xl border p-6 transition-all duration-200 ${
               plan.featured
-                ? "border-[#7c5cfc]/40 bg-gradient-to-b from-[#7c5cfc]/5 to-transparent shadow-xl shadow-[#7c5cfc]/10 scale-105"
+                ? "border-[#4f46e5]/40 bg-gradient-to-b from-[#4f46e5]/5 to-transparent shadow-xl shadow-[#4f46e5]/10 scale-105"
                 : "border-border/50 bg-card hover:border-border/80"
             }`}
           >
             {plan.featured && (
-              <div className="absolute -top-3 left-1/2 -translate-x-1/2 inline-flex items-center gap-1.5 rounded-full bg-gradient-to-r from-[#7c5cfc] to-[#c084fc] px-3 py-1 text-[10px] font-semibold text-white shadow-lg">
+              <div className="absolute -top-3 left-1/2 -translate-x-1/2 inline-flex items-center gap-1.5 rounded-full bg-gradient-to-r from-[#4f46e5] to-[#818cf8] px-3 py-1 text-[10px] font-semibold text-white shadow-lg">
                 <SparklesIcon size={10} />
                 Most Popular
               </div>

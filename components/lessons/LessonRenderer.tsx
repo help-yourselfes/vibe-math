@@ -23,7 +23,7 @@ function TextPara({ content }: { content: string }) {
 
 function CalloutBox({ children }: { children: React.ReactNode }) {
   return (
-    <div className="border-l-4 border-l-primary bg-[#0b0f19] rounded-r-xl py-5 pr-5 my-8">
+    <div className="border-l-4 border-l-[#4f46e5] bg-[rgba(13,17,23,0.5)] rounded-r-xl py-5 pr-5 my-8">
       <div className="pl-5 space-y-3">{children}</div>
     </div>
   )
@@ -33,8 +33,8 @@ function KeyValueList({ pairs }: { pairs: { key: string; desc: string }[] }) {
   return (
     <div className="space-y-4 my-6">
       {pairs.map((pair, i) => (
-        <div key={i} className="flex items-start gap-4 rounded-lg border border-border/40 bg-[#0b0f19] p-4">
-          <span className="shrink-0 rounded-md bg-[#7c5cfc]/15 px-2.5 py-1 text-xs font-bold text-[#c084fc]">
+        <div key={i} className="flex items-start gap-4 rounded-lg border border-border/40 bg-[rgba(13,17,23,0.5)] p-4">
+          <span className="shrink-0 rounded-md bg-[#4f46e5]/15 px-2.5 py-1 text-xs font-bold text-[#818cf8]">
             <RichText content={pair.key} />
           </span>
           <span className="text-sm text-muted-foreground leading-relaxed">
@@ -53,7 +53,7 @@ function BulletList({ items }: { items: string[] }) {
         const cleaned = item.replace(/^-\s+/, "")
         return (
           <li key={i} className="flex items-start gap-3 text-sm text-foreground/90">
-            <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-[#7c5cfc]/50" />
+            <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-[#4f46e5]/50" />
             <span className="leading-relaxed"><RichText content={cleaned} /></span>
           </li>
         )

@@ -1,6 +1,7 @@
 "use client"
 
 import { useState, useMemo } from "react"
+import { motion } from "framer-motion"
 import { InlineMath } from "@/components/ui/katex"
 
 export function IntegralVisualizer() {
@@ -46,19 +47,23 @@ export function IntegralVisualizer() {
         <rect x={margin.left} y={margin.top} width={plotW} height={plotH} fill="rgba(255,255,255,0.02)" rx="4" />
 
         {data.rects.map((r, i) => (
-          <rect
+          <motion.rect
             key={i}
+            initial={{ opacity: 0, scaleY: 0 }}
+            animate={{ opacity: 1, scaleY: 1 }}
+            transition={{ type: "spring", stiffness: 200, damping: 20, delay: i * 0.02 }}
+            style={{ transformOrigin: `${xToPixel(r.x) + Math.abs(xToPixel(r.x + r.w) - xToPixel(r.x)) / 2}px ${yToPixel(0)}px` }}
             x={xToPixel(r.x)}
             y={yToPixel(r.h)}
             width={Math.abs(xToPixel(r.x + r.w) - xToPixel(r.x))}
             height={Math.abs(yToPixel(0) - yToPixel(r.h))}
-            fill="rgba(124,92,252,0.15)"
-            stroke="rgba(124,92,252,0.4)"
+            fill="rgba(79,70,229,0.15)"
+            stroke="rgba(79,70,229,0.4)"
             strokeWidth="1"
           />
         ))}
 
-        <path d={curvePath} fill="none" stroke="#7c5cfc" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+        <path d={curvePath} fill="none" stroke="#4f46e5" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
 
         <line x1={xToPixel(0)} y1={yToPixel(0)} x2={xToPixel(xMax)} y2={yToPixel(0)} stroke="rgba(255,255,255,0.15)" strokeWidth="1" />
         <line x1={xToPixel(0)} y1={yToPixel(yMin)} x2={xToPixel(0)} y2={yToPixel(yMax)} stroke="rgba(255,255,255,0.15)" strokeWidth="1" />
@@ -70,30 +75,34 @@ export function IntegralVisualizer() {
           <text key={v} x={xToPixel(0) - 8} y={yToPixel(v) + 4} textAnchor="end" fill="rgba(255,255,255,0.35)" fontSize="11">{v}</text>
         ))}
 
-        <text x={xToPixel(b)} y={yToPixel(-0.1) + 18} textAnchor="middle" fill="#7c5cfc" fontSize="12" fontWeight="600">b</text>
+        <text x={xToPixel(b)} y={yToPixel(-0.1) + 18} textAnchor="middle" fill="#4f46e5" fontSize="12" fontWeight="600">b</text>
       </svg>
 
       <div>
         <p className="text-xs text-muted-foreground mb-1.5">Rectangles: <InlineMath>{`n = ${n}`}</InlineMath></p>
-        <input
-          type="range"
-          min={2}
-          max={30}
-          step={1}
-          value={n}
-          onChange={e => setN(parseInt(e.target.value))}
-          className="w-full"
-        />
+        <motion.div whileHover={{ scale: 1.01 }} transition={{ type: "spring", stiffness: 300, damping: 20 }}>
+          <input
+            type="range"
+            min={2}
+            max={30}
+            step={1}
+            value={n}
+            onChange={e => setN(parseInt(e.target.value))}
+            className="w-full"
+          />
+        </motion.div>
       </div>
 
       <div className="flex items-center justify-between text-sm">
-        <div className="rounded-lg border border-primary/20 bg-primary/5 px-3 py-2">
+        <div className="min-w-[140px] rounded-lg border border-[#4f46e5]/20 bg-[#4f46e5]/5 px-3 py-2">
           <p className="text-[11px] text-muted-foreground">Riemann sum</p>
-          <p className="text-lg font-bold tabular-nums text-primary">{data.riemannSum.toFixed(4)}</p>
+          <p className="text-lg font-bold font-mono tabular-nums text-[#4f46e5] leading-tight">
+            {data.riemannSum.toFixed(4)}
+          </p>
         </div>
-        <div className="rounded-lg border border-border/40 bg-card/20 px-3 py-2">
+        <div className="min-w-[140px] rounded-lg border border-border/40 bg-[rgba(13,17,23,0.5)] px-3 py-2">
           <p className="text-[11px] text-muted-foreground">Exact area</p>
-          <p className="text-lg font-bold tabular-nums text-foreground">{data.actualArea.toFixed(4)}</p>
+          <p className="text-lg font-bold font-mono tabular-nums text-foreground leading-tight">{data.actualArea.toFixed(4)}</p>
         </div>
       </div>
     </div>

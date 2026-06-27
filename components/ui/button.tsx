@@ -4,24 +4,24 @@ import { cva, type VariantProps } from "class-variance-authority"
 import { cn } from "@/lib/utils"
 
 const buttonVariants = cva(
-  "inline-flex items-center justify-center gap-2 whitespace-nowrap text-sm font-medium transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:pointer-events-none disabled:opacity-40 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 select-none",
+  "inline-flex items-center justify-center gap-2 whitespace-nowrap text-sm font-medium transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:pointer-events-none disabled:opacity-40 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 select-none active:scale-[0.97]",
   {
     variants: {
       variant: {
         default:
-          "bg-primary text-primary-foreground shadow-lg shadow-primary/20 hover:shadow-xl hover:shadow-primary/30 hover:brightness-110 active:scale-[0.97]",
+          "bg-[#4f46e5] text-white shadow-lg shadow-[#4f46e5]/20 hover:shadow-xl hover:shadow-[#4f46e5]/30 hover:brightness-110",
         destructive:
-          "bg-destructive text-destructive-foreground shadow-lg shadow-destructive/20 hover:shadow-xl hover:shadow-destructive/30 active:scale-[0.97]",
+          "bg-destructive text-destructive-foreground shadow-lg shadow-destructive/20 hover:shadow-xl hover:shadow-destructive/30",
         outline:
-          "border border-border bg-transparent shadow-sm hover:bg-accent hover:text-accent-foreground active:scale-[0.97]",
+          "border border-border bg-transparent shadow-sm hover:bg-accent hover:text-accent-foreground",
         secondary:
-          "bg-secondary text-secondary-foreground shadow-sm hover:bg-accent hover:text-accent-foreground active:scale-[0.97]",
+          "bg-secondary text-secondary-foreground shadow-sm hover:bg-accent hover:text-accent-foreground",
         ghost:
-          "hover:bg-accent hover:text-accent-foreground active:scale-[0.97]",
+          "hover:bg-accent hover:text-accent-foreground",
         link:
-          "text-primary underline-offset-4 hover:underline",
+          "text-[#4f46e5] underline-offset-4 hover:underline",
         premium:
-          "bg-gradient-to-r from-[#7c5cfc] to-[#c084fc] text-white shadow-lg shadow-[#7c5cfc]/25 hover:shadow-xl hover:shadow-[#7c5cfc]/30 hover:brightness-110 active:scale-[0.97]",
+          "bg-gradient-to-r from-[#4f46e5] to-[#818cf8] text-white shadow-lg shadow-[#4f46e5]/25 hover:shadow-xl hover:shadow-[#4f46e5]/30 hover:brightness-110",
       },
       size: {
         default: "h-10 px-5 py-2 rounded-lg",
