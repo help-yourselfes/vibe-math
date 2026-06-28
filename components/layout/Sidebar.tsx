@@ -5,7 +5,8 @@ import { usePathname } from "next/navigation"
 import Link from "next/link"
 import { lessons } from "@/lessons-data/lessons"
 import { cn } from "@/lib/utils"
-import { LockIcon, CheckIcon, InfinityIcon } from "@/components/ui/icons"
+import { LockIcon, CheckIcon } from "@/components/ui/icons"
+import { Logo } from "@/components/ui/Logo"
 import { InlineMath } from "@/components/ui/katex"
 import { useApp } from "./AppShell"
 import { glossaryTerms, type GlossaryEntry } from "@/components/glossary/glossaryData"
@@ -378,9 +379,7 @@ export function Sidebar() {
           ) : (
             <>
               <Link href="/" className="flex items-center gap-2.5 font-semibold text-base tracking-tight min-w-0">
-                <span className="flex items-center justify-center w-7 h-7 rounded-lg bg-gradient-to-br from-[#4f46e5] to-[#818cf8] text-white shrink-0">
-                  <InfinityIcon size={14} />
-                </span>
+                <Logo size="sm" />
                 <span className="truncate text-foreground/90">Vibe Math</span>
               </Link>
               <div className="ml-auto">

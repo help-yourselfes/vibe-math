@@ -1,13 +1,10 @@
 import Link from "next/link"
-import { SparklesIcon, LockIcon, CheckIcon } from "@/components/ui/icons"
+import { LockIcon, CheckIcon } from "@/components/ui/icons"
 import { Clock, Zap, Brain } from "lucide-react"
 import { cn } from "@/lib/utils"
-import katex from "katex"
 import { lessons } from "@/lessons-data/lessons"
-
-function renderMath(tex: string) {
-  return { __html: katex.renderToString(tex, { throwOnError: false, displayMode: false }) }
-}
+import { renderMath } from "@/lib/katex-utils"
+import { BadgePill } from "@/components/ui/BadgePill"
 
 const lessonMeta: Record<string, {
   time: string
@@ -86,10 +83,7 @@ export default async function LessonsPage() {
       <div className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[300px] bg-[#4f46e5]/6 blur-[120px] pointer-events-none" />
 
       <div className="text-center space-y-5 max-w-xl mx-auto px-6 mb-16">
-        <div className="inline-flex items-center gap-2 rounded-full border border-[#4f46e5]/20 bg-[#4f46e5]/5 px-4 py-1.5 text-xs font-medium text-[#4f46e5]">
-          <SparklesIcon size={14} />
-          All lessons free during beta
-        </div>
+        <BadgePill text="All lessons free during beta" className="text-[#4f46e5]" />
         <h1 className="text-3xl md:text-5xl font-bold tracking-tight">Calculus Roadmap</h1>
         <p className="text-muted-foreground text-sm leading-relaxed max-w-md mx-auto">
           10 interactive lessons across 3 modules — follow the path from foundations to advanced topics.

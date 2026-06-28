@@ -1,8 +1,10 @@
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
-import { InfinityIcon, ZapIcon, SparklesIcon, TrophyIcon, GraphIcon, FunctionIcon, IntegralIcon, SigmaIcon, CrownIcon } from "@/components/ui/icons"
+import { InfinityIcon, ZapIcon, TrophyIcon, SparklesIcon, GraphIcon, FunctionIcon, IntegralIcon, SigmaIcon, CrownIcon } from "@/components/ui/icons"
 import { HeroBackground } from "@/components/ui/HeroBackground"
 import { SinGraphCard } from "@/components/ui/SinGraphCard"
+import { GlassCard } from "@/components/ui/GlassCard"
+import { BadgePill } from "@/components/ui/BadgePill"
 
 const features = [
   { icon: FunctionIcon, text: "Limits & Continuity" },
@@ -20,10 +22,7 @@ export default function Home() {
 
       <div className="container py-20 space-y-28 relative">
         <section className="text-center space-y-6 max-w-3xl mx-auto animate-fade-in min-h-[60vh] flex flex-col items-center justify-center">
-          <div className="inline-flex items-center gap-2 rounded-full border border-[#4f46e5]/20 bg-[#4f46e5]/5 px-4 py-1.5 text-xs font-medium text-[#818cf8] mb-2">
-            <SparklesIcon size={14} />
-            Interactive calculus, completely free
-          </div>
+          <BadgePill text="Interactive calculus, completely free" />
           <h1 className="text-5xl sm:text-7xl font-bold tracking-tight leading-[1.1]">
             Calculus, but it actually{" "}
             <span className="text-[#818cf8]">clicks</span>
@@ -50,35 +49,35 @@ export default function Home() {
         <section className="max-w-5xl mx-auto p-5 relative">
           <div className="flex flex-col gap-10 relative">
             <div className="flex gap-5 justify-center">
-              <div className="rounded-xl border border-[#1f2937] bg-[rgba(13,17,23,0.75)] backdrop-blur-[12px] p-6 hover:border-[#4f46e5]/30 transition-all duration-200 flex flex-col items-center text-center justify-center min-h-[200px] flex-1 max-w-[240px]">
+              <GlassCard hover className="p-6 flex flex-col items-center text-center justify-center min-h-[200px] flex-1 max-w-[240px]">
                 <TrophyIcon className="text-[#4f46e5] mb-3" size={22} />
                 <p className="text-3xl font-bold mb-1">10</p>
                 <p className="text-sm font-medium text-foreground mb-2">Interactive Lessons</p>
                 <p className="text-sm text-muted-foreground leading-relaxed">From limits to differential equations. Each lesson has hands-on interactive demos.</p>
-              </div>
+              </GlassCard>
               <div className="flex-[3] min-w-0">
                 <SinGraphCard />
               </div>
             </div>
             <div className="flex gap-5 justify-center items-center">
               <img src="/main-page/coin.png" alt="coin" className="w-36 h-36 object-contain shrink-0" style={{ animation: "float 3.5s ease-in-out infinite" }} />
-              <div className="rounded-xl border border-[#1f2937] bg-[rgba(13,17,23,0.75)] backdrop-blur-[12px] p-6 hover:border-[#4f46e5]/30 transition-all duration-200 w-auto max-w-sm">
+              <GlassCard hover className="p-6 w-auto max-w-sm">
                 <SparklesIcon className="text-[#4f46e5] mb-4" size={24} />
                 <p className="text-3xl font-bold mb-1">100%</p>
                 <p className="text-sm font-medium text-foreground mb-2">Free to Learn</p>
                 <p className="text-sm text-muted-foreground leading-relaxed">All lessons are completely free. No credit card, no sign-up required to get started.</p>
-              </div>
+              </GlassCard>
             </div>
             <div className="absolute left-0 right-0 flex items-center justify-center pointer-events-none" style={{ top: "58%" }}>
               <div className="w-[700px] h-[300px] rounded-full bg-[#4f46e5]/6 blur-[120px]" />
             </div>
             <div className="flex gap-5 justify-center items-center">
-              <div className="rounded-xl border border-[#1f2937] bg-[rgba(13,17,23,0.75)] backdrop-blur-[12px] p-6 hover:border-[#4f46e5]/30 transition-all duration-200 w-auto max-w-sm">
+              <GlassCard hover className="p-6 w-auto max-w-sm">
                 <ZapIcon className="text-[#4f46e5] mb-4" size={24} />
                 <p className="text-3xl font-bold mb-1">6</p>
                 <p className="text-sm font-medium text-foreground mb-2">Interactive Tools</p>
                 <p className="text-sm text-muted-foreground leading-relaxed">Limit explorers, derivative step solvers, Riemann sum visualizers, and more.</p>
-              </div>
+              </GlassCard>
               <img src="/main-page/gear.png" alt="gear" className="w-36 h-36 object-contain shrink-0" style={{ animation: "float 3.5s ease-in-out infinite 1s" }} />
             </div>
           </div>
@@ -88,12 +87,12 @@ export default function Home() {
           <h2 className="text-2xl font-bold tracking-tight">What You&apos;ll Learn</h2>
           <div className="grid sm:grid-cols-2 gap-3 text-left">
             {features.map(({ icon: Icon, text }) => (
-              <div key={text} className="flex items-center gap-3 rounded-xl border border-[#1f2937] bg-[rgba(13,17,23,0.75)] backdrop-blur-[12px] p-4 text-sm transition-all duration-200 hover:border-[#4f46e5]/30">
+              <GlassCard hover key={text} className="p-4 flex items-center gap-3 text-sm">
                 <div className="flex items-center justify-center w-8 h-8 rounded-lg bg-[#4f46e5]/10 text-[#4f46e5]">
                   <Icon size={16} />
                 </div>
                 {text}
-              </div>
+              </GlassCard>
             ))}
           </div>
         </section>

@@ -1,11 +1,7 @@
 "use client"
 
 import { useRef, useEffect, useState } from "react"
-import katex from "katex"
-
-function renderMath(tex: string) {
-  return { __html: katex.renderToString(tex, { throwOnError: false }) }
-}
+import { renderMath } from "@/lib/katex-utils"
 
 const PI = Math.PI
 const RANGE = PI * 2 // total range width: -π to π

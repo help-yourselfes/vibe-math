@@ -1,5 +1,17 @@
 export type TermCategory = "definition" | "formula" | "theorem"
 
+export const catColor: Record<string, string> = {
+  definition: "bg-blue-500/10 text-blue-400 border-blue-500/20",
+  formula: "bg-amber-500/10 text-amber-400 border-amber-500/20",
+  theorem: "bg-emerald-500/10 text-emerald-400 border-emerald-500/20",
+}
+
+export const catLabel: Record<string, string> = {
+  definition: "Definition",
+  formula: "Formula",
+  theorem: "Theorem",
+}
+
 export interface GlossaryEntry {
   term: string
   definition: string

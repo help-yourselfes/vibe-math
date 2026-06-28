@@ -1,27 +1,13 @@
 import { createClient } from "@/lib/supabase/server"
 import { redirect } from "next/navigation"
 import Link from "next/link"
-import { getGlossaryEntry, glossaryTerms, type GlossaryEntry } from "@/components/glossary/glossaryData"
-import katex from "katex"
-
-function renderMath(tex: string) {
-  return { __html: katex.renderToString(tex, { throwOnError: false, displayMode: false }) }
-}
-
-const catColor: Record<string, string> = {
-  definition: "bg-blue-500/10 text-blue-400 border-blue-500/20",
-  formula: "bg-amber-500/10 text-amber-400 border-amber-500/20",
-  theorem: "bg-emerald-500/10 text-emerald-400 border-emerald-500/20",
-}
-const catLabel: Record<string, string> = {
-  definition: "Definition",
-  formula: "Formula",
-  theorem: "Theorem",
-}
+import { getGlossaryEntry, glossaryTerms, catColor, catLabel, type GlossaryEntry } from "@/components/glossary/glossaryData"
+import { renderMath } from "@/lib/katex-utils"
+import { GlassCard } from "@/components/ui/GlassCard"
 
 function GlossaryCard({ entry }: { entry: GlossaryEntry }) {
   return (
-    <div className="rounded-xl border border-[#1f2937] bg-[rgba(13,17,23,0.75)] backdrop-blur-[12px] p-5 hover:border-[#4f46e5]/30 transition-all duration-200">
+    <GlassCard hover className="p-5">
       <div className="flex items-start justify-between gap-3 mb-3">
         <div>
           <span className={`inline-block text-[10px] font-semibold uppercase tracking-wider px-2 py-0.5 rounded border ${catColor[entry.category] || ""}`}>
@@ -42,7 +28,7 @@ function GlossaryCard({ entry }: { entry: GlossaryEntry }) {
           <span dangerouslySetInnerHTML={renderMath(entry.formula)} />
         </div>
       )}
-    </div>
+    </GlassCard>
   )
 }
 

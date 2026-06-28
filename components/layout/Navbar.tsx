@@ -3,7 +3,7 @@
 import { usePathname } from "next/navigation"
 import Link from "next/link"
 import { UserButton } from "@/components/auth/UserButton"
-import { InfinityIcon } from "@/components/ui/icons"
+import { Logo } from "@/components/ui/Logo"
 
 const navLinks = [
   { href: "/lessons", label: "Lessons" },
@@ -24,9 +24,7 @@ export function Navbar() {
       <div className="mx-auto flex h-14 w-full max-w-[1200px] items-center justify-between px-6">
         <div className="flex items-center gap-8">
           <Link href="/" className="flex items-center gap-2.5 font-semibold text-lg tracking-tight">
-            <span className="flex items-center justify-center w-8 h-8 rounded-lg bg-gradient-to-br from-[#4f46e5] to-[#818cf8] text-white text-sm">
-              <InfinityIcon size={16} />
-            </span>
+            <Logo size="md" />
             Vibe Math
           </Link>
           <nav className="hidden md:flex items-center gap-1 text-sm">
