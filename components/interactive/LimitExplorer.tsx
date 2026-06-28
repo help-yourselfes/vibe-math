@@ -102,21 +102,7 @@ export function LimitExplorer() {
             (2, 3)
           </text>
 
-          {x < target && (
-            <>
-              <line x1={x2s(leftApproach)} y1={y2s(f(leftApproach)) + 16} x2={x2s(x)} y2={y2s(f(x)) + 16} stroke="#4f46e5" strokeWidth={1.5} strokeDasharray="4 3" />
-              <polygon points={`${x2s(x) + 6},${y2s(f(x)) + 10} ${x2s(x)},${y2s(f(x)) + 16} ${x2s(x) + 6},${y2s(f(x)) + 22}`} fill="#4f46e5" fillOpacity={0.7} />
-            </>
-          )}
 
-          {x > target && (
-            <>
-              <line x1={x2s(rightApproach)} y1={y2s(f(rightApproach)) + 16} x2={x2s(x)} y2={y2s(f(x)) + 16} stroke="#818cf8" strokeWidth={1.5} strokeDasharray="4 3" />
-              <polygon points={`${x2s(x) - 6},${y2s(f(x)) + 10} ${x2s(x)},${y2s(f(x)) + 16} ${x2s(x) - 6},${y2s(f(x)) + 22}`} fill="#818cf8" fillOpacity={0.7} />
-            </>
-          )}
-
-          <line x1={x2s(x)} y1={MT} x2={x2s(x)} y2={H - MB} stroke="#4f46e5" strokeWidth={1.5} strokeDasharray="5 4" strokeOpacity={0.7} />
 
           <circle cx={x2s(x)} cy={y2s(f(x))} r={5} fill="#818cf8" stroke="#4f46e5" strokeWidth={2} />
         </svg>

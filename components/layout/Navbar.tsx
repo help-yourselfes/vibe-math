@@ -19,7 +19,7 @@ export function Navbar() {
   return (
     <header
       style={{ position: "fixed", top: 0, left: 0, right: 0, zIndex: 50 }}
-      className="border-b border-border/50 bg-background/80 backdrop-blur-xl"
+      className="border-b border-border/50 max-md:bg-[#050508] md:bg-background/80 md:backdrop-blur-xl"
     >
       <div className="mx-auto flex h-14 w-full max-w-[1200px] items-center justify-between px-6">
         <div className="flex items-center gap-8">

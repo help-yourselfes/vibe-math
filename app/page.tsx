@@ -15,7 +15,7 @@ const features = [
 
 export default function Home() {
   return (
-    <div className="relative overflow-hidden">
+    <div className="relative overflow-hidden min-h-screen">
       <HeroBackground />
 
       <div className="container py-20 space-y-28 relative">

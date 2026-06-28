@@ -230,21 +230,21 @@ function SliderWithOverlay({
         <span style={{ color }}>{label}</span>
         <span className="font-mono" style={{ color }}>{value.toFixed(2)}</span>
       </label>
-      <div className="relative h-5 flex items-center">
-        <div className="absolute inset-x-0 top-1/2 -translate-y-1/2 h-[6px] mx-[2px] pointer-events-none rounded overflow-hidden">
-          {overlayStart != null && (
-            <div
-              className="absolute inset-y-0 right-0 rounded-r bg-black/35"
-              style={{ left: `${overlayStart}%` }}
-            />
-          )}
-          {overlayEnd != null && (
-            <div
-              className="absolute inset-y-0 left-0 rounded-l bg-black/35"
-              style={{ right: `${100 - overlayEnd}%` }}
-            />
-          )}
-        </div>
+          <div className="relative flex items-center md:h-5">
+            <div className="absolute inset-x-0 top-1/2 -translate-y-1/2 h-[6px] mx-[2px] pointer-events-none rounded overflow-hidden">
+              {overlayStart != null && (
+                <div
+                  className="absolute inset-y-0 right-0 rounded-r bg-black/35"
+                  style={{ left: `${overlayStart}%` }}
+                />
+              )}
+              {overlayEnd != null && (
+                <div
+                  className="absolute inset-y-0 left-0 rounded-l bg-black/35"
+                  style={{ right: `${100 - overlayEnd}%` }}
+                />
+              )}
+            </div>
         <input
           type="range"
           min={min}

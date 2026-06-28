@@ -366,7 +366,7 @@ export function Sidebar() {
     <>
       <aside
         className={cn(
-          "fixed left-0 top-0 h-screen z-40 flex flex-col bg-[#030308] border-r border-[#1f2937] transition-all duration-200 ease-in-out overflow-hidden",
+          "fixed left-0 top-0 h-screen z-40 flex flex-col bg-[#030308] border-r border-[#1f2937] transition-all duration-200 ease-in-out overflow-hidden whitespace-nowrap",
           collapsed ? "w-0" : "w-[280px]"
         )}
       >
@@ -504,7 +504,7 @@ export function Sidebar() {
         onClick={() => setCollapsed(!collapsed)}
         className={cn(
           "fixed top-4 z-50 flex items-center justify-center w-8 h-8 rounded-lg bg-[#1f2937] border border-[#1f2937] text-muted-foreground/60 hover:text-foreground hover:bg-[#334155] transition-all duration-200 ease-in-out cursor-pointer",
-          collapsed ? "left-4" : "left-[276px]"
+          collapsed ? "left-4" : "left-[296px]"
         )}
         aria-label={collapsed ? "Open sidebar" : "Close sidebar"}
       >

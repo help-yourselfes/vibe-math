@@ -18,7 +18,7 @@ export function MathBlock({ math, display }: { math: string; display?: boolean }
   })
 
   return display ? (
-    <div className="katex-display-wrapper my-8 text-center overflow-x-auto overflow-y-hidden py-5 px-4 rounded-xl bg-muted/30 border border-border/30">
+    <div className="katex-display-wrapper my-8 text-center overflow-x-auto overflow-y-hidden whitespace-nowrap py-5 px-4 rounded-xl bg-muted/30 border border-border/30">
       <span ref={ref} />
     </div>
   ) : (

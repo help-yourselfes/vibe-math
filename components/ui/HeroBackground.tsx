@@ -1,198 +1,174 @@
 "use client"
 
-import { useRef, useEffect, useState } from "react"
+import { useRef, useEffect } from "react"
+import * as THREE from "three"
 
-interface Point3D {
-  x: number
-  y: number
-  z: number
-}
-
-function project(p: Point3D, cx: number, cy: number, scale: number, rotX: number, rotY: number) {
-  const cosX = Math.cos(rotX), sinX = Math.sin(rotX)
-  const cosY = Math.cos(rotY), sinY = Math.sin(rotY)
-
-  const x1 = p.x * cosY - p.z * sinY
-  const z1 = p.x * sinY + p.z * cosY
-  const y1 = p.y * cosX + z1 * sinX
-  const z2 = -p.y * sinX + z1 * cosX
-
-  const d = 700
-  const factor = d / (d + z2)
-  return {
-    sx: cx + x1 * scale * factor,
-    sy: cy - y1 * scale * factor,
-    depth: z2,
-  }
-}
-
-interface GridData {
-  points: Point3D[]
-  indices: [number, number][]
-  seeds: number[]
-  half: number
-  spacing: number
-  size: number
-}
-
-function buildGrid(w: number, h: number): GridData {
-  const size = 26
-  const spacing = Math.max(w, h) / size * 1.5
-  const half = (size - 1) * spacing * 0.5
-  const points: Point3D[] = []
-  for (let ix = 0; ix < size; ix++) {
-    for (let iz = 0; iz < size; iz++) {
-      points.push({ x: ix * spacing - half, y: 0, z: iz * spacing - half })
-    }
-  }
-  const seeds = points.map(() => Math.random() * Math.PI * 2)
-  const indices: [number, number][] = []
-  for (let ix = 0; ix < size; ix++) {
-    for (let iz = 0; iz < size; iz++) {
-      const idx = ix * size + iz
-      if (ix < size - 1) indices.push([idx, idx + size])
-      if (iz < size - 1) indices.push([idx, idx + 1])
-    }
-  }
-  return { points, indices, seeds, half, spacing, size }
-}
+const GRID_SIZE = 8
+const SPREAD = 1200
 
 export function HeroBackground() {
-  const canvasRef = useRef<HTMLCanvasElement>(null)
-  const frameRef = useRef<number>(0)
-  const mouseRef = useRef({ x: 0.5, y: 0.5 })
-  const gridRef = useRef<GridData | null>(null)
-  const [mounted, setMounted] = useState(false)
-
-  useEffect(() => { setMounted(true) }, [])
+  const mountRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
-    if (!mounted) return
+    const mount = mountRef.current
+    if (!mount) return
+
+    const w = window.innerWidth
+    const h = window.innerHeight
+
+    const scene = new THREE.Scene()
+    scene.fog = new THREE.Fog(0x050508, 500, 1400)
+
+    const camera = new THREE.PerspectiveCamera(45, w / h, 1, 2000)
+    camera.position.set(0, 300, 600)
+    camera.lookAt(0, 0, 0)
+
+    const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true })
+    renderer.setSize(w, h)
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.5))
+    mount.appendChild(renderer.domElement)
+
+    // ── Ground Grid ──
+    const half = SPREAD / 2
+    const step = SPREAD / GRID_SIZE
+    const gridPositions: number[] = []
+    for (let i = 0; i <= GRID_SIZE; i++) {
+      const pos = -half + i * step
+      gridPositions.push(-half, 0, pos, half, 0, pos)
+      gridPositions.push(pos, 0, -half, pos, 0, half)
+    }
+
+    const gridGeo = new THREE.BufferGeometry()
+    gridGeo.setAttribute("position", new THREE.Float32BufferAttribute(gridPositions, 3))
+    const gridMat = new THREE.LineBasicMaterial({
+      color: 0x4f46e5,
+      transparent: true,
+      opacity: 0.1,
+      depthWrite: false,
+    })
+    const gridLines = new THREE.LineSegments(gridGeo, gridMat)
+    scene.add(gridLines)
+
+    // ── Floating bubbles at each grid intersection ──
+    const pointCount = (GRID_SIZE + 1) * (GRID_SIZE + 1)
+    const positions = new Float32Array(pointCount * 3)
+    const sizes = new Float32Array(pointCount)
+    const colors = new Float32Array(pointCount * 3)
+    const floatPhase = new Float32Array(pointCount)
+    const floatSpeed = new Float32Array(pointCount)
+    const floatAmp = new Float32Array(pointCount)
+    const sizePhase = new Float32Array(pointCount)
+
+    let idx = 0
+    for (let ix = 0; ix <= GRID_SIZE; ix++) {
+      for (let iz = 0; iz <= GRID_SIZE; iz++) {
+        const i3 = idx * 3
+        const x = -half + ix * step
+        const z = -half + iz * step
+        positions[i3] = x
+        positions[i3 + 1] = 0
+        positions[i3 + 2] = z
+        sizes[idx] = 2 + Math.random() * 6
+        const b = 0.4 + Math.random() * 0.6
+        colors[i3] = 0.31 * b
+        colors[i3 + 1] = 0.16 * b
+        colors[i3 + 2] = 0.56 * b
+        floatPhase[idx] = Math.random() * Math.PI * 2
+        floatSpeed[idx] = 0.3 + Math.random() * 0.5
+        floatAmp[idx] = 8 + Math.random() * 25
+        sizePhase[idx] = Math.random() * Math.PI * 2
+        idx++
+      }
+    }
+
+    const pointGeo = new THREE.BufferGeometry()
+    pointGeo.setAttribute("position", new THREE.BufferAttribute(positions, 3))
+    pointGeo.setAttribute("size", new THREE.BufferAttribute(sizes, 1))
+    pointGeo.setAttribute("color", new THREE.BufferAttribute(colors, 3))
+
+    const pointMat = new THREE.PointsMaterial({
+      size: 6,
+      vertexColors: true,
+      transparent: true,
+      opacity: 0.75,
+      sizeAttenuation: true,
+      depthWrite: false,
+      blending: THREE.AdditiveBlending,
+    })
+
+    const points = new THREE.Points(pointGeo, pointMat)
+    scene.add(points)
+
+    // ── Animation ──
+    const mouse = { x: 0.5, y: 0.5 }
     const handleMouse = (e: MouseEvent) => {
-      mouseRef.current = { x: e.clientX / window.innerWidth, y: e.clientY / window.innerHeight }
+      mouse.x = e.clientX / window.innerWidth
+      mouse.y = e.clientY / window.innerHeight
     }
     window.addEventListener("mousemove", handleMouse)
-    return () => window.removeEventListener("mousemove", handleMouse)
-  }, [mounted])
 
-  useEffect(() => {
-    if (!mounted) return
-    const canvas = canvasRef.current
-    if (!canvas) return
-    const dpr = window.devicePixelRatio || 1
+    const timer = new THREE.Timer()
 
-    let w = 0, h = 0
+    const animate = () => {
+      timer.update()
+      const t = timer.getElapsed()
 
-    const resize = () => {
-      w = window.innerWidth
-      h = window.innerHeight
-      canvas!.width = w * dpr
-      canvas!.height = h * dpr
-      canvas!.style.width = w + "px"
-      canvas!.style.height = h + "px"
-      gridRef.current = buildGrid(w, h)
-    }
-    resize()
-    window.addEventListener("resize", resize)
+      const autoRotY = Math.sin(t * 0.08) * 0.2
+      const autoRotX = Math.sin(t * 0.06 + 1) * 0.04
+      const rotY = autoRotY + (mouse.x - 0.5) * 0.3
+      const rotX = autoRotX + (mouse.y - 0.5) * 0.1 + 0.35
+      const dist = 600
+      camera.position.x = Math.sin(rotY) * Math.cos(rotX) * dist
+      camera.position.y = Math.sin(rotX) * dist * 0.45
+      camera.position.z = Math.cos(rotY) * Math.cos(rotX) * dist
+      camera.lookAt(0, 0, 0)
 
-    const animate = (time: number) => {
-      const cvs = canvasRef.current
-      if (!cvs || !gridRef.current) return
-      const c = cvs.getContext("2d")
-      if (!c) return
-
-      c.clearRect(0, 0, w, h)
-
-      const mx = mouseRef.current.x
-      const my = mouseRef.current.y
-      const t = time * 0.001
-
-      const autoRotY = Math.sin(t * 0.12) * 0.25
-      const autoRotX = Math.sin(t * 0.08 + 1) * 0.06
-
-      const rotY = autoRotY + (mx - 0.5) * 0.35 + 0.5
-      const rotX = autoRotX + (my - 0.5) * 0.12 + 0.3
-      const scale = w / (gridRef.current.half * 1.6)
-      const cx = w * 0.5
-      const cy = h * 0.38
-      const amp = 12
-
-      const flatProj = gridRef.current.points.map((p) => project({ x: p.x, y: 0, z: p.z }, cx, cy, scale, rotX, rotY))
-
-      c.strokeStyle = "rgba(79, 70, 229, 0.12)"
-      c.lineWidth = 1
-      for (const [i1, i2] of gridRef.current.indices) {
-        const a = flatProj[i1], b = flatProj[i2]
-        const depthFade = Math.max(0, 1 - Math.abs(a.depth) / 800)
-        if (depthFade <= 0.01) continue
-        const midSx = (a.sx + b.sx) / 2
-        const midSy = (a.sy + b.sy) / 2
-        const edgeFadeX = 1 - Math.pow(Math.abs(midSx - cx) / (w * 0.6), 2)
-        const edgeFadeY = 1 - Math.pow(Math.abs(midSy - cy) / (h * 0.7), 2)
-        const fade = Math.max(0, Math.min(1, (edgeFadeX + edgeFadeY) * 0.6)) * depthFade
-        if (fade <= 0) continue
-        c.globalAlpha = fade
-        c.beginPath()
-        c.moveTo(a.sx, a.sy)
-        c.lineTo(b.sx, b.sy)
-        c.stroke()
+      const pos = pointGeo.attributes.position.array as Float32Array
+      const sz = pointGeo.attributes.size.array as Float32Array
+      for (let i = 0; i < pointCount; i++) {
+        const i3 = i * 3
+        pos[i3 + 1] = Math.sin(t * floatSpeed[i] + floatPhase[i]) * floatAmp[i] + floatAmp[i]
+        const base = sizes[i]
+        const pulse = 1 + 0.5 * Math.sin(t * (0.6 + sizePhase[i] * 0.2) + sizePhase[i])
+        sz[i] = base * pulse
       }
-      c.globalAlpha = 1
+      pointGeo.attributes.position.needsUpdate = true
+      pointGeo.attributes.size.needsUpdate = true
 
-      const waveProj = gridRef.current.points.map((p, i) => {
-        const y = Math.sin(p.x * 0.03 + t * 0.8) * Math.cos(p.z * 0.03 + t * 0.5) * amp
-        const pr = project({ x: p.x, y, z: p.z }, cx, cy, scale, rotX, rotY)
-        return { ...pr, y3d: y, idx: i }
-      })
-
-      waveProj.sort((a, b) => b.depth - a.depth)
-
-      for (const p of waveProj) {
-        const depthFade = Math.max(0, 1 - Math.abs(p.depth) / 800)
-        if (depthFade <= 0.01) continue
-
-        const edgeFadeX = 1 - Math.pow(Math.abs(p.sx - cx) / (w * 0.6), 3)
-        const edgeFadeY = 1 - Math.pow(Math.abs(p.sy - cy) / (h * 0.7), 3)
-        const edgeFade = Math.max(0, Math.min(1, (edgeFadeX + edgeFadeY) * 0.6))
-        if (edgeFade <= 0) continue
-
-        const fade = depthFade * edgeFade
-        const seed = gridRef.current.seeds[p.idx]
-        const baseSize = 2.5 + seed * 0.4
-        const pulse = 1 + 0.4 * Math.sin(t * 1.2 + seed * 3)
-        const depthSize = Math.max(0.6, 1 - p.depth * 0.002)
-        const size = baseSize * pulse * depthSize * fade
-
-        const yNorm = (p.y3d / amp + 1) * 0.5
-        const alpha = fade
-        const hue = 240 + (1 - yNorm) * 35
-        const sat = 65 + yNorm * 25
-        const light = 50 + yNorm * 30
-
-        c.beginPath()
-        c.arc(p.sx, p.sy, size, 0, Math.PI * 2)
-        c.fillStyle = `hsla(${hue}, ${sat}%, ${light}%, ${alpha})`
-        c.fill()
-      }
-
-      frameRef.current = requestAnimationFrame(animate)
+      renderer.render(scene, camera)
+      frameId = requestAnimationFrame(animate)
     }
 
-    frameRef.current = requestAnimationFrame(animate)
+    let frameId = requestAnimationFrame(animate)
+
+    const handleResize = () => {
+      const ww = window.innerWidth
+      const wh = window.innerHeight
+      camera.aspect = ww / wh
+      camera.updateProjectionMatrix()
+      renderer.setSize(ww, wh)
+    }
+    window.addEventListener("resize", handleResize)
+
     return () => {
-      if (frameRef.current) cancelAnimationFrame(frameRef.current)
-      window.removeEventListener("resize", resize)
-      gridRef.current = null
+      window.removeEventListener("mousemove", handleMouse)
+      window.removeEventListener("resize", handleResize)
+      cancelAnimationFrame(frameId)
+      pointGeo.dispose()
+      pointMat.dispose()
+      gridGeo.dispose()
+      gridMat.dispose()
+      renderer.dispose()
+      if (mount.contains(renderer.domElement)) {
+        mount.removeChild(renderer.domElement)
+      }
     }
-  }, [mounted])
-
-  if (!mounted) return null
+  }, [])
 
   return (
-    <canvas
-      ref={canvasRef}
-      className="absolute inset-0 pointer-events-none"
-      aria-hidden="true"
-    />
+    <>
+      <div ref={mountRef} className="absolute inset-0 pointer-events-none select-none" aria-hidden="true" />
+      <div className="absolute inset-x-0 bottom-0 h-1/2 pointer-events-none select-none" aria-hidden="true" style={{ background: 'linear-gradient(to top, var(--background) 0%, transparent 100%)' }} />
+    </>
   )
 }

@@ -82,7 +82,7 @@ export default async function LessonsPage() {
   const currentIdx = 0
 
   return (
-    <div className="py-16 relative">
+    <div className="py-10 md:py-16 relative">
       <div className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[300px] bg-[#4f46e5]/6 blur-[120px] pointer-events-none" />
 
       <div className="text-center space-y-5 max-w-xl mx-auto px-6 mb-16">
@@ -90,7 +90,7 @@ export default async function LessonsPage() {
           <SparklesIcon size={14} />
           All lessons free during beta
         </div>
-        <h1 className="text-5xl font-bold tracking-tight">Calculus Roadmap</h1>
+        <h1 className="text-3xl md:text-5xl font-bold tracking-tight">Calculus Roadmap</h1>
         <p className="text-muted-foreground text-sm leading-relaxed max-w-md mx-auto">
           10 interactive lessons across 3 modules — follow the path from foundations to advanced topics.
         </p>
@@ -101,7 +101,7 @@ export default async function LessonsPage() {
           {modules.map((mod, modIdx) => {
             return (
               <details key={mod.title} open className="group">
-                <summary className="sticky top-0 z-20 list-none cursor-pointer bg-background/90 backdrop-blur-md py-4 flex items-center justify-between border-b border-slate-800/60 mb-6">
+                <summary className="sticky top-14 z-20 list-none cursor-pointer bg-background/90 backdrop-blur-md py-4 flex items-center justify-between border-b border-slate-800/60 mb-6 -mx-6 px-6">
                   <div>
                     <div className="flex items-center gap-3">
                       <span className="text-xs font-bold uppercase tracking-widest text-[#4f46e5]/70">
@@ -154,12 +154,12 @@ export default async function LessonsPage() {
                             isCompleted && "opacity-50"
                           )}
                         >
-                          <div className="flex items-start justify-between gap-4 mb-2">
+                          <div className="flex flex-col md:flex-row md:items-start justify-between gap-2 md:gap-4 mb-2">
                             <div className="flex items-center gap-3 min-w-0">
                               <span className="text-xs font-bold text-slate-500 shrink-0">
                                 {String(globalIdx + 1).padStart(2, "0")}
                               </span>
-                              <h3 className="text-base font-semibold leading-tight truncate transition-colors">
+                              <h3 className="text-base font-semibold leading-tight transition-colors">
                                 {lessonData?.title ?? meta.xp}
                               </h3>
                               <span className={cn(
@@ -171,7 +171,7 @@ export default async function LessonsPage() {
                                 {isFree ? "Free" : "Premium"}
                               </span>
                             </div>
-                            <div className="shrink-0 flex items-center gap-3 text-xs text-muted-foreground/60">
+                            <div className="flex flex-wrap items-center gap-3 text-xs text-muted-foreground/60">
                               <span className="flex items-center gap-1">
                                 <Clock size={11} className="text-[#4f46e5]/50" />
                                 {meta.time}
